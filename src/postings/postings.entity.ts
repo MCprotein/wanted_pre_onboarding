@@ -1,9 +1,9 @@
-import { CompanyEntity } from 'src/companies/companies.entity';
-import { ListEntity } from 'src/lists/lists.entity';
+import { Company } from 'src/companies/companies.entity';
+import { List } from 'src/lists/lists.entity';
 import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
 
 @Entity('Posting')
-export class PostingEntity {
+export class Posting {
   @PrimaryColumn()
   id: string;
 
@@ -19,12 +19,12 @@ export class PostingEntity {
   @Column({ length: 20 })
   skill: string;
 
-  @ManyToOne(() => CompanyEntity, (company) => company.postings, {
+  @ManyToOne(() => Company, (company) => company.postings, {
     nullable: false,
     onDelete: 'CASCADE',
   })
-  company: CompanyEntity;
+  company: Company;
 
-  @OneToMany(() => ListEntity, (list) => list.posting)
-  lists: ListEntity[];
+  @OneToMany(() => List, (list) => list.posting)
+  lists: List[];
 }

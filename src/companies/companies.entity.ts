@@ -1,8 +1,8 @@
-import { PostingEntity } from 'src/postings/postings.entity';
+import { Posting } from 'src/postings/postings.entity';
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 
 @Entity('Company')
-export class CompanyEntity {
+export class Company {
   @PrimaryColumn()
   id: string;
 
@@ -15,6 +15,6 @@ export class CompanyEntity {
   @Column({ length: 20 })
   location: string;
 
-  @OneToMany(() => PostingEntity, (posting) => posting.company)
-  postings: PostingEntity[];
+  @OneToMany(() => Posting, (posting) => posting.company)
+  postings: Posting[];
 }

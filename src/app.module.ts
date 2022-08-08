@@ -4,7 +4,6 @@ import { CompaniesModule } from './companies/companies.module';
 import { PostingsModule } from './postings/postings.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { UserEntity } from './users/user.entity';
 import { ListsModule } from './lists/lists.module';
 @Module({
   imports: [

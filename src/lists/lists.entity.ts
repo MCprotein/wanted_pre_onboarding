@@ -1,18 +1,18 @@
-import { PostingEntity } from 'src/postings/postings.entity';
-import { UserEntity } from 'src/users/user.entity';
+import { Posting } from 'src/postings/postings.entity';
+import { User } from 'src/users/user.entity';
 import { Entity, ManyToOne, OneToOne, PrimaryColumn } from 'typeorm';
 
 @Entity('List')
-export class ListEntity {
+export class List {
   @PrimaryColumn()
   id: string;
 
-  @OneToOne(() => UserEntity, (user) => user.list)
-  user: UserEntity;
+  @OneToOne(() => User, (user) => user.list)
+  user: User;
 
-  @ManyToOne(() => PostingEntity, (posting) => posting.lists, {
+  @ManyToOne(() => Posting, (posting) => posting.lists, {
     nullable: false,
     onDelete: 'CASCADE',
   })
-  posting: PostingEntity;
+  posting: Posting;
 }
