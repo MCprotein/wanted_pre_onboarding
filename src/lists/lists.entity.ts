@@ -1,11 +1,6 @@
 import { Posting } from 'src/postings/postings.entity';
 import { User } from 'src/users/user.entity';
-import {
-  Entity,
-  ManyToOne,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('List')
 export class List {

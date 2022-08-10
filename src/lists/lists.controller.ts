@@ -1,4 +1,4 @@
-import { Body, Controller, ParseIntPipe, Post, Param } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { List } from 'src/lists/lists.entity';
 import { ApplyDto } from './dto/apply.dto';
 import { ListsService } from './lists.service';
