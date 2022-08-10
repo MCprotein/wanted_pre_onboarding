@@ -5,7 +5,7 @@ import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
 @Entity('Posting')
 export class Posting {
   @PrimaryColumn()
-  id: string;
+  id: number;
 
   @Column({ length: 30 })
   position: string;

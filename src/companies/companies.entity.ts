@@ -4,7 +4,7 @@ import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 @Entity('Company')
 export class Company {
   @PrimaryColumn()
-  id: string;
+  id: number;
 
   @Column({ length: 30 })
   name: string;

@@ -1,10 +1,10 @@
 import { List } from 'src/lists/lists.entity';
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, PrimaryColumn } from 'typeorm';
 
 @Entity('User')
 export class User {
   @PrimaryColumn()
-  id: string;
+  id: number;
 
   @Column({ length: 30 })
   name: string;
@@ -12,9 +12,6 @@ export class User {
   @Column({ length: 100 })
   email: string;
 
-  @OneToOne(() => List, (list) => list.user, {
-    nullable: false,
-  })
-  @JoinColumn()
-  list: List;
+  @OneToMany(() => List, (list) => list.user)
+  lists: List[];
 }
