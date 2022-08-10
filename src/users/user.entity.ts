@@ -1,10 +1,17 @@
 import { List } from 'src/lists/lists.entity';
-import { Column, Entity, JoinColumn, OneToMany, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('User')
 export class User {
-  @PrimaryColumn()
-  id: number;
+  @PrimaryGeneratedColumn('increment')
+  public id: number;
 
   @Column({ length: 30 })
   name: string;

@@ -1,10 +1,15 @@
 import { Posting } from 'src/postings/postings.entity';
 import { User } from 'src/users/user.entity';
-import { Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import {
+  Entity,
+  ManyToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('List')
 export class List {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
   @ManyToOne(() => User, (user) => user.lists, {

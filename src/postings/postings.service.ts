@@ -19,8 +19,10 @@ export class PostingsService {
   async getPosting(id: number): Promise<void> {
     // return await this.postingsRepository.createQueryBuilder('Posting').leftJoinAndSelect('Posting.List', '');
   }
-  async createPosting(createPostingDto: PostingDto): Promise<void> {
-    // return await this.postingsRepository.createQueryBuilder('Posting').leftJoinAndSelect('Posting.List', '');
+  async createPosting(createPostingDto: PostingDto): Promise<Posting> {
+    const createdPosting = this.postingsRepository.create(createPostingDto);
+    await this.postingsRepository.save(createdPosting);
+    return createdPosting;
   }
   async updatePosting(id: number, updatePostingDto: PostingDto): Promise<void> {
     // return await this.postingsRepository.createQueryBuilder('Posting').leftJoinAndSelect('Posting.List', '');
