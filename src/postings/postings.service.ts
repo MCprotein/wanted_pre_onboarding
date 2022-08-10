@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PostingDto } from './dto/posting.dto';
+import { PostingDto, UpdateDto } from './dto';
 import { Posting } from './postings.entity';
 
 @Injectable()
@@ -24,10 +24,28 @@ export class PostingsService {
     await this.postingsRepository.save(createdPosting);
     return createdPosting;
   }
-  async updatePosting(id: number, updatePostingDto: PostingDto): Promise<void> {
-    // return await this.postingsRepository.createQueryBuilder('Posting').leftJoinAndSelect('Posting.List', '');
+  async updatePosting(
+    id: number,
+    updatePostingDto: UpdateDto,
+  ): Promise<Posting> {
+    const updatedPosting = await this.postingsRepository.update(
+      id,
+      updatePostingDto,
+    );
+    if (updatedPosting.affected === 0) {
+      throw new NotFoundException(
+        `해당 채용공고 id(${id})가 없습니다. 다시 한 번 확인해 주세요.`,
+      );
+    }
+
+    return await this.postingsRepository.findOne(id);
   }
   async deletePosting(id: number): Promise<void> {
-    // return await this.postingsRepository.createQueryBuilder('Posting').leftJoinAndSelect('Posting.List', '');
+    const result = await this.postingsRepository.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException(
+        `해당 채용공고 id(${id})가 없습니다. 다시 한 번 확인해 주세요.`,
+      );
+    }
   }
 }
