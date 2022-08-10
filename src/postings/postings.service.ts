@@ -10,9 +10,10 @@ export class PostingsService {
   constructor(
     @InjectRepository(Posting)
     private postingsRepository: Repository<Posting>,
+    @InjectRepository(Company)
+    private companyRepository: Repository<Company>,
   ) {}
 
-  // async getPostings(): Promise<Posting[]> {
   async getPostings(): Promise<Posting[]> {
     const postings = await this.postingsRepository
       .createQueryBuilder('posting')
@@ -26,13 +27,34 @@ export class PostingsService {
         'posting.reward AS 채용보상금',
         'posting.skill AS 사용기술',
       ])
-      // .innerJoinAndSelect('posting.company', 'company')
       .getRawMany();
     return postings;
   }
 
-  async getPosting(id: number): Promise<void> {
-    // return await this.postingsRepository.createQueryBuilder('Posting').leftJoinAndSelect('Posting.List', '');
+  async getPosting(id: number): Promise<Posting[]> {
+    // const postings = await this.companyRepository
+    //   .createQueryBuilder('company')
+    //   .subQuery()
+    //   .select(['company.postings.id'])
+    //   .getQuery();
+
+    const posting = await this.postingsRepository
+      .createQueryBuilder('posting')
+      .leftJoinAndSelect('posting.company', 'company')
+      .select([
+        'posting.id AS 채용공고_id',
+        'company.name AS 회사명',
+        'company.nation AS 국가',
+        'company.location AS 지역',
+        'posting.position AS 채용포지션',
+        'posting.reward AS 채용보상금',
+        'posting.skill AS 사용기술',
+        'posting.content AS 채용내용',
+        'postings',
+      ])
+      .where('posting.id = :id', { id })
+      .getRawMany();
+    return posting;
   }
   async createPosting(createPostingDto: PostingDto): Promise<Posting> {
     const createdPosting = this.postingsRepository.create(createPostingDto);
