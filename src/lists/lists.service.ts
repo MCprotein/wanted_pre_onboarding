@@ -12,7 +12,8 @@ export class ListsService {
   ) {}
 
   async createList(applyDto: ApplyDto): Promise<List> {
-    const createdList = await this.listRepository.create(applyDto);
+    const createdList = this.listRepository.create(applyDto);
+    await this.listRepository.save(createdList);
     return createdList;
   }
 }
