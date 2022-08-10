@@ -16,23 +16,15 @@ export class PostingsController {
   constructor(private postingsService: PostingsService) {}
 
   @Get('/')
-  async getPostings(): Promise<Posting> {
+  async getPostings(): Promise<Posting[]> {
     const postings = await this.postingsService.getPostings();
-    return Object.assign({
-      statusCode: 200,
-      message: '채용공고 목록 조회 성공',
-      postings,
-    });
+    return postings;
   }
 
   @Get('/detail/:id')
   async getPosting(@Param('id', ParseIntPipe) id: number): Promise<Posting> {
     const posting = await this.postingsService.getPosting(id);
-    return Object.assign({
-      statusCode: 200,
-      message: '채용공고 상세 조회 성공',
-      posting,
-    });
+    return posting;
   }
 
   @Post('/')
@@ -40,11 +32,7 @@ export class PostingsController {
     const createdPosting = await this.postingsService.createPosting(
       createPostingDto,
     );
-    return Object.assign({
-      statusCode: 201,
-      message: '채용공고 등록 성공',
-      createdPosting,
-    });
+    return createdPosting;
   }
 
   @Put('/:id')
@@ -56,11 +44,7 @@ export class PostingsController {
       id,
       updatePostingDto,
     );
-    return Object.assign({
-      statusCode: 200,
-      message: '채용공고 수정 성공',
-      updatedPosting,
-    });
+    return updatedPosting;
   }
 
   @Delete('/:id')

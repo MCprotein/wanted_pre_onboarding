@@ -31,22 +31,13 @@ export class PostingsService {
     return postings;
   }
 
-  async getPosting(id: number): Promise<Posting[] | any[]> {
-    // 회사가 올린 다른 채용 공고 id_list
-    const postingIds = (
-      await this.companyRepository
-        .createQueryBuilder('company')
-        .leftJoinAndSelect('company.postings', 'postings')
-        .select(['postings.id'])
-        .where('postings.company = :id', { id })
-        .getRawMany()
-    ).map((e) => e['postings_id']);
+  async getPosting(id: number): Promise<Posting | any> {
+    // 채용공고를 올린 회사의 id와 같은 회사id를 가진 채용공고들
 
     // 채용공고 상세 내용
     const posting = await this.postingsRepository
       .createQueryBuilder('posting')
       .leftJoinAndSelect('posting.company', 'company')
-      .leftJoinAndSelect('company.postings', 'postings1')
       .select([
         'posting.id AS 채용공고_id',
         'company.name AS 회사명',
@@ -56,10 +47,23 @@ export class PostingsService {
         'posting.reward AS 채용보상금',
         'posting.skill AS 사용기술',
         'posting.content AS 채용내용',
+        'company.id AS 회사_id',
       ])
       .where('posting.id = :id', { id })
       .getRawOne();
+
+    // 회사가 올린 다른 채용 공고 id_list
+    const postingIds = (
+      await this.companyRepository
+        .createQueryBuilder('company')
+        .leftJoinAndSelect('company.postings', 'postings')
+        .select(['postings.id'])
+        .where('postings.company = :id', { id: posting['회사_id'] })
+        .getRawMany()
+    ).map((e) => e['postings_id']);
+
     const result = { ...posting, 회사가올린다른채용공고: [...postingIds] };
+    delete result['회사_id'];
     return result;
   }
   async createPosting(createPostingDto: PostingDto): Promise<Posting> {
