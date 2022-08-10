@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Company } from 'src/companies/companies.entity';
 import { Repository } from 'typeorm';
 import { PostingDto, UpdateDto } from './dto';
 import { Posting } from './postings.entity';
@@ -12,8 +13,22 @@ export class PostingsService {
   ) {}
 
   // async getPostings(): Promise<Posting[]> {
-  async getPostings(): Promise<void> {
-    // return await this.postingsRepository.createQueryBuilder('Posting').leftJoinAndSelect('Posting.List', '');
+  async getPostings(): Promise<Posting[]> {
+    const postings = await this.postingsRepository
+      .createQueryBuilder('posting')
+      .leftJoinAndSelect('posting.company', 'company')
+      .select([
+        'posting.id AS 채용공고_id',
+        'company.name AS 회사명',
+        'company.nation AS 국가',
+        'company.location AS 지역',
+        'posting.position AS 채용포지션',
+        'posting.reward AS 채용보상금',
+        'posting.skill AS 사용기술',
+      ])
+      // .innerJoinAndSelect('posting.company', 'company')
+      .getRawMany();
+    return postings;
   }
 
   async getPosting(id: number): Promise<void> {

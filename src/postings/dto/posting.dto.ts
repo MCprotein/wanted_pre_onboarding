@@ -7,8 +7,8 @@ export class PostingDto {
   position: string;
 
   @IsNotEmpty()
-  @IsString()
-  reward: string;
+  @IsInt()
+  reward: number;
 
   @IsNotEmpty()
   @IsString()

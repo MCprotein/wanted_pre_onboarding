@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsString } from 'class-validator';
 
 export class UpdateDto {
   @IsNotEmpty()
@@ -6,8 +6,8 @@ export class UpdateDto {
   position: string;
 
   @IsNotEmpty()
-  @IsString()
-  reward: string;
+  @IsInt()
+  reward: number;
 
   @IsNotEmpty()
   @IsString()

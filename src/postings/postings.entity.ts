@@ -16,8 +16,8 @@ export class Posting {
   @Column({ length: 30 })
   position: string;
 
-  @Column({ length: 100 })
-  reward: string;
+  @Column()
+  reward: number;
 
   @Column({ length: 8000 })
   content: string;
