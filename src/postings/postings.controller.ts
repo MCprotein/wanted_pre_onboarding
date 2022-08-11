@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Get,
+  Query,
 } from '@nestjs/common';
 import { PostingDto } from './dto/posting.dto';
 import { Posting } from './postings.entity';
@@ -25,6 +26,16 @@ export class PostingsController {
   async getPosting(@Param('id', ParseIntPipe) id: number): Promise<Posting> {
     const posting = await this.postingsService.getPosting(id);
     return posting;
+  }
+
+  @Get('/explore')
+  async searchPosting(
+    @Query('search') searchOption: string,
+  ): Promise<Posting[]> {
+    const searchedPostings = await this.postingsService.searchPostings(
+      searchOption,
+    );
+    return searchedPostings;
   }
 
   @Post('/')
