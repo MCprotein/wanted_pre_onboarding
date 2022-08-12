@@ -4,6 +4,7 @@ import { Company } from 'src/companies/companies.entity';
 import { PostingsService } from './postings.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { NotFoundException } from '@nestjs/common';
 
 const companyMock: Company = {
   id: 1,
@@ -25,6 +26,7 @@ const mockPostingsRepository = () => ({
     getRawMany: jest.fn().mockReturnThis(),
     where: jest.fn().mockReturnThis(),
   }),
+  findOne: jest.fn(),
 });
 
 const mockCompanyRepository = () => ({
@@ -66,30 +68,6 @@ describe('PostingsService', () => {
     );
   });
 
-  describe('채용공고 작성', () => {
-    const postingResult = {
-      company: 1,
-      position: '주니어 개발자',
-      reward: 10000,
-      content: '구합니다',
-      skill: 'Node.js',
-    };
-    const postingDto = {
-      companyId: companyMock,
-      position: '주니어 개발자',
-      reward: 10000,
-      content: '구합니다',
-      skill: 'Node.js',
-    };
-    it('채용공고 작성 성공', async () => {
-      postingsRepository.create.mockResolvedValue(postingResult);
-      const result = await service.createPosting(postingDto);
-
-      expect(postingsRepository.create).toHaveBeenCalledTimes(1);
-      expect(postingsRepository.create).toHaveBeenCalledWith(postingDto);
-      expect(result).toEqual(postingResult);
-    });
-  });
   describe('채용공고 조회', () => {
     it('채용공고 목록 조회', async () => {
       postingsRepository.createQueryBuilder().getRawMany.mockResolvedValue([]);
@@ -173,6 +151,73 @@ describe('PostingsService', () => {
       ).toHaveBeenCalledTimes(1);
 
       expect(result).toEqual(posting);
+    });
+  });
+  describe('채용공고 작성', () => {
+    const postingResult = {
+      company: 1,
+      position: '주니어 개발자',
+      reward: 10000,
+      content: '구합니다',
+      skill: 'Node.js',
+    };
+    const postingDto = {
+      companyId: companyMock,
+      position: '주니어 개발자',
+      reward: 10000,
+      content: '구합니다',
+      skill: 'Node.js',
+    };
+    it('채용공고 작성 성공', async () => {
+      postingsRepository.create.mockResolvedValue(postingResult);
+      const result = await service.createPosting(postingDto);
+
+      expect(postingsRepository.create).toHaveBeenCalledTimes(1);
+      expect(postingsRepository.create).toHaveBeenCalledWith(postingDto);
+      expect(result).toEqual(postingResult);
+    });
+  });
+  describe('채용공고 수정', () => {
+    const updateResult = {
+      company: 1,
+      position: '시니어 개발자',
+      reward: 20000,
+      content: '구합니다',
+      skill: 'Node.js',
+    };
+
+    const updateDto = {
+      companyId: companyMock,
+      position: '시니어 개발자',
+      reward: 20000,
+      content: '구합니다',
+      skill: 'Node.js',
+    };
+    it('채용공고 수정 성공', async () => {
+      postingsRepository.update.mockResolvedValue(updateResult);
+      postingsRepository.findOne.mockResolvedValue(updateResult);
+      const result = await service.updatePosting(1, updateDto);
+
+      expect(postingsRepository.update).toHaveBeenCalledTimes(1);
+      expect(postingsRepository.update).toHaveBeenCalledWith(1, updateDto);
+      expect(result).toEqual(updateResult);
+    });
+    it('채용공고 수정 실패', async () => {
+      try {
+        postingsRepository.update.mockResolvedValue({
+          ...updateDto,
+          affected: 0,
+        });
+        await service.updatePosting(1, updateDto);
+      } catch (error) {
+        expect(postingsRepository.update).toHaveBeenCalledTimes(1);
+        expect(postingsRepository.update).toHaveBeenCalledWith(1, updateDto);
+        expect(error).toEqual(
+          new NotFoundException(
+            '해당 채용공고 id(1)가 없습니다. 다시 한 번 확인해 주세요.',
+          ),
+        );
+      }
     });
   });
 });
