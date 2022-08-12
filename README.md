@@ -1,13 +1,9 @@
 # wanted_pre_onboarding
 
----
-
 원티드 프리온보딩 백엔드 코스 4차 선발과제입니다.
 과제 내용: https://bow-hair-db3.notion.site/4-82b986ae35454252a3a950f54e57af9b
 
 ## 1. 서비스 개요
-
----
 
 - 본 서비스는 기업의 채용을 위한 웹 서비스 입니다.
 - 회사는 채용공고를 생성하고, 이에 사용자는 지원합니다.
@@ -21,8 +17,6 @@
   - MySQL
   - TypeORM
   - Jest
-
----
 
 ### 1. 기능 목록
 
@@ -50,8 +44,6 @@ https://documenter.getpostman.com/view/21812980/VUjQoQiK
 #### 2. lists.service.spec.ts 단위 테스트
 
 ## 3. 구현
-
----
 
 ### 1. 채용공고 등록
 
