@@ -14,6 +14,14 @@
 
 ## 2. 개요
 
+- 기술 스택
+  - Node.js
+  - Nest.js
+  - TypeScript
+  - MySQL
+  - TypeORM
+  - Jest
+
 ---
 
 ### 1. 기능 목록
@@ -265,6 +273,28 @@ https://documenter.getpostman.com/view/21812980/VUjQoQiK
 
 ### 2. Unit Test (가산점 요소 작성 완료)
 
+- 서비스단 테스트 커버리지 100% 완료
+- 각각의 repository를 mocking하여 테스트 진행
+- API Docs에 작성된 것 모두 테스트 진행 완료
+
 #### 1. postings.service.spec.ts 단위 테스트
 
+- 채용공고 조회
+  - 채용공고 목록 조회
+  - 채용공고 상세 조회
+- 채용공고 작성
+  - 채용공고 작성 성공
+- 채용공고 수정
+  - 채용공고 수정 성공
+  - 채용공고 수정 실패
+- 채용공고 삭제
+  - 채용공고 삭제 성공
+  - 채용공고 삭제 실패
+- 채용공고 검색
+  - 채용공고 검색 성공
+
 #### 2. lists.service.spec.ts 단위 테스트
+
+- 채용공고 지원
+  - 채용공고 지원 성공
+  - 채용공고 지원 실패
