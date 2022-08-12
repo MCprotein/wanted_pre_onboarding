@@ -112,6 +112,7 @@ export class PostingsService {
     id: number,
     updatePostingDto: UpdateDto,
   ): Promise<Posting> {
+    if (updatePostingDto['company']) delete updatePostingDto['company'];
     const updatedPosting = await this.postingsRepository.update(
       id,
       updatePostingDto,
