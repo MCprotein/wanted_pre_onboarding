@@ -170,7 +170,7 @@ https://documenter.getpostman.com/view/21812980/VUjQoQiK
 ]
 ```
 
-#### 4-2. 채용공고 검색 기능
+#### 4-2. 채용공고 검색 기능 (선택사항)
 
 - 채용공고에서 회사명, 국가, 지역, 채용포지션, 사용기술에 대해 검색할 수 있습니다.
 - `GET /postings/explore?search=검색키워드`
@@ -205,7 +205,7 @@ https://documenter.getpostman.com/view/21812980/VUjQoQiK
 ]
 ```
 
-#### 5. 채용공고 상세 조회
+#### 5. 채용공고 상세 조회 (선택사항)
 
 - 채용 상세페이지에서 채용내용과 회사가 올린 다른 채용공고의 id 목록을 볼 수 있습니다.
 - `GET /postings/detail/:id`
@@ -226,7 +226,7 @@ https://documenter.getpostman.com/view/21812980/VUjQoQiK
 }
 ```
 
-#### 6. 채용공고 지원
+#### 6. 채용공고 지원 (선택사항)
 
 - 사용자는 채용공고에 지원할 수 있습니다.
 - `POST /lists`
@@ -262,3 +262,9 @@ https://documenter.getpostman.com/view/21812980/VUjQoQiK
     "error": "Forbidden"
 }
 ```
+
+### 2. Unit Test (가산점 요소 작성 완료)
+
+#### 1. postings.service.spec.ts 단위 테스트
+
+#### 2. lists.service.spec.ts 단위 테스트

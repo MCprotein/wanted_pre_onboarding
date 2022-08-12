@@ -98,7 +98,7 @@ describe('PostingsService', () => {
         채용보상금: 10000,
         사용기술: 'Node.js',
         채용내용: 'Node.js 백엔드 개발자 구인',
-        회사가올린다른채용공고: [1, 2],
+        회사가올린다른채용공고: [2],
       };
       const mainData = {
         채용공고_id: 1,
@@ -193,6 +193,7 @@ describe('PostingsService', () => {
       reward: 20000,
       content: '구합니다',
       skill: 'Node.js',
+      company: 1,
     };
     it('채용공고 수정 성공', async () => {
       postingsRepository.update.mockResolvedValue(updateResult);
