@@ -1,6 +1,6 @@
 # wanted_pre_onboarding
 
-원티드 프리온보딩 백엔드 코스 4차 선발과제입니다.
+원티드 프리온보딩 백엔드 코스 4차 선발과제입니다. <br>
 과제 내용: https://bow-hair-db3.notion.site/4-82b986ae35454252a3a950f54e57af9b
 
 ## 1. 서비스 개요
@@ -139,7 +139,7 @@ https://documenter.getpostman.com/view/21812980/VUjQoQiK
 }
 ```
 
-#### 4. 채용공고 목록 조회
+### 4. 채용공고 목록 조회
 
 - 채용공고 목록을 조회할 수 있습니다.
 - `GET /postings`
@@ -170,7 +170,7 @@ https://documenter.getpostman.com/view/21812980/VUjQoQiK
 ]
 ```
 
-#### 4-2. 채용공고 검색 기능 (선택사항)
+### 4-2. 채용공고 검색 기능 (선택사항)
 
 - 채용공고에서 회사명, 국가, 지역, 채용포지션, 사용기술에 대해 검색할 수 있습니다.
 - `GET /postings/explore?search=검색키워드`
@@ -205,7 +205,7 @@ https://documenter.getpostman.com/view/21812980/VUjQoQiK
 ]
 ```
 
-#### 5. 채용공고 상세 조회 (선택사항)
+### 5. 채용공고 상세 조회 (선택사항)
 
 - 채용 상세페이지에서 채용내용과 회사가 올린 다른 채용공고의 id 목록을 볼 수 있습니다.
 - `GET /postings/detail/:id`
@@ -226,7 +226,7 @@ https://documenter.getpostman.com/view/21812980/VUjQoQiK
 }
 ```
 
-#### 6. 채용공고 지원 (선택사항)
+### 6. 채용공고 지원 (선택사항)
 
 - 사용자는 채용공고에 지원할 수 있습니다.
 - `POST /lists`
@@ -263,7 +263,7 @@ https://documenter.getpostman.com/view/21812980/VUjQoQiK
 }
 ```
 
-### 2. Unit Test (가산점 요소 작성 완료)
+## 2. Unit Test (가산점 요소 작성 완료)
 
 - 서비스단 테스트 커버리지 100% 완료
 - 각각의 repository를 mocking하여 테스트 진행
