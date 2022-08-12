@@ -2,22 +2,22 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Posting } from './postings.entity';
 import { Company } from 'src/companies/companies.entity';
 import { PostingsService } from './postings.service';
-import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
-import { PostingDto } from './dto';
+import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-// const companyMock: Company = {
-//   id: 1,
-//   name: '네이버',
-//   nation: '한국',
-//   location: '분당',
-//   postings: [],
-// };
+const companyMock: Company = {
+  id: 1,
+  name: '네이버',
+  nation: '한국',
+  location: '분당',
+  postings: [],
+};
 
 const mockPostingsRepository = () => ({
-  createPosting: jest.fn(),
-  updatePosting: jest.fn(),
-  deletePosting: jest.fn(),
+  save: jest.fn(),
+  create: jest.fn(),
+  update: jest.fn(),
+  delete: jest.fn(),
   getPostings: jest.fn(),
   getPosting: jest.fn(),
   searchPosting: jest.fn(),
@@ -57,7 +57,29 @@ describe('PostingsService', () => {
     );
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  describe('채용공고 작성', () => {
+    const postingResult = {
+      company: 1,
+      position: '주니어 개발자',
+      reward: 10000,
+      content: '구합니다',
+      skill: 'Node.js',
+    };
+    const postingDto = {
+      companyId: companyMock,
+      position: '주니어 개발자',
+      reward: 10000,
+      content: '구합니다',
+      skill: 'Node.js',
+    };
+    it('채용공고 작성 성공', async () => {
+      postingsRepository.create.mockResolvedValue(postingResult);
+      const result = await service.createPosting(postingDto);
+      console.log('result', result);
+
+      expect(postingsRepository.create).toHaveBeenCalledTimes(1);
+      expect(postingsRepository.create).toHaveBeenCalledWith(postingDto);
+      expect(result).toEqual(postingResult);
+    });
   });
 });
