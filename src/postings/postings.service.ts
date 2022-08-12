@@ -96,6 +96,7 @@ export class PostingsService {
         skill: `%${searchOption}%`,
       })
       .getRawMany();
+
     return searchedPostings;
   }
 

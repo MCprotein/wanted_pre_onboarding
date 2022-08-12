@@ -25,6 +25,7 @@ const mockPostingsRepository = () => ({
     getRawOne: jest.fn().mockReturnThis(),
     getRawMany: jest.fn().mockReturnThis(),
     where: jest.fn().mockReturnThis(),
+    orWhere: jest.fn().mockReturnThis(),
   }),
   findOne: jest.fn(),
 });
@@ -218,6 +219,76 @@ describe('PostingsService', () => {
           ),
         );
       }
+    });
+  });
+  describe('채용공고 삭제', () => {
+    it('채용공고 삭제 성공', async () => {
+      postingsRepository.delete.mockResolvedValue({ affected: 1 });
+      const result = await service.deletePosting(1);
+
+      expect(postingsRepository.delete).toHaveBeenCalledTimes(1);
+      expect(postingsRepository.delete).toHaveBeenCalledWith(1);
+      expect(result).toBeUndefined();
+    });
+    it('채용공고 삭제 실패', async () => {
+      try {
+        postingsRepository.delete.mockResolvedValue({ affected: 0 });
+        await service.deletePosting(1);
+      } catch (error) {
+        expect(postingsRepository.delete).toHaveBeenCalledTimes(1);
+        expect(postingsRepository.delete).toHaveBeenCalledWith(1);
+        expect(error).toEqual(
+          new NotFoundException(
+            '해당 채용공고 id(1)가 없습니다. 다시 한 번 확인해 주세요.',
+          ),
+        );
+      }
+    });
+  });
+  describe('채용공고 검색', () => {
+    it('채용공고 검색 성공', async () => {
+      const posting = [
+        {
+          채용공고_id: 1,
+          회사명: 'Naver',
+          국가: '한국',
+          지역: '판교',
+          채용포지션: '백엔드',
+          채용보상금: 10000,
+          사용기술: 'Node.js',
+          채용내용: 'Node.js 백엔드 개발자 구인',
+        },
+        {
+          채용공고_id: 2,
+          회사명: 'Kakao',
+          국가: '한국',
+          지역: '판교',
+          채용포지션: '프론트엔드',
+          채용보상금: 10000,
+          사용기술: 'React',
+          채용내용: 'React 프론트 개발자 구인',
+        },
+      ];
+      postingsRepository
+        .createQueryBuilder()
+        .getRawMany.mockResolvedValue(posting);
+      const searchOption = '판교';
+      const result = await service.searchPostings(searchOption);
+
+      expect(postingsRepository.createQueryBuilder).toHaveBeenCalledTimes(2);
+      expect(
+        postingsRepository.createQueryBuilder().leftJoinAndSelect,
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        postingsRepository.createQueryBuilder().select,
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        postingsRepository.createQueryBuilder().orWhere,
+      ).toHaveBeenCalledTimes(5);
+      expect(
+        postingsRepository.createQueryBuilder().getRawMany,
+      ).toHaveBeenCalledTimes(1);
+      expect(result).toEqual(posting);
     });
   });
 });
