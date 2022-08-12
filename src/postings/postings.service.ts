@@ -62,7 +62,10 @@ export class PostingsService {
         .getRawMany()
     ).map((e) => e['postings_id']);
 
-    const result = { ...posting, 회사가올린다른채용공고: [...postingIds] };
+    const result = {
+      ...posting,
+      회사가올린다른채용공고: [...postingIds.filter((e) => e !== id)],
+    };
     delete result['회사_id'];
     return result;
   }
