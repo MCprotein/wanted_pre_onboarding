@@ -32,8 +32,6 @@ export class PostingsService {
   }
 
   async getPosting(id: number): Promise<Posting> {
-    // 채용공고를 올린 회사의 id와 같은 회사id를 가진 채용공고들
-
     // 채용공고 상세 내용
     const posting = await this.postingsRepository
       .createQueryBuilder('posting')
