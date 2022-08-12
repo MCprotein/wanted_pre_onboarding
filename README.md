@@ -464,6 +464,65 @@ async getPostings(): Promise<Posting[]> {
 7. 테스트코드는 nest.js에 기본으로 설치되어 있는 Jest를 사용했습니다.
 
 - 실제 db를 사용할 수는 없기때문에 repository를 mocking하였습니다.
+
+```ts
+const mockPostingsRepository = () => ({
+  save: jest.fn(),
+  create: jest.fn(),
+  update: jest.fn(),
+  delete: jest.fn(),
+  createQueryBuilder: jest.fn().mockReturnValue({
+    leftJoinAndSelect: jest.fn().mockReturnThis(),
+    select: jest.fn().mockReturnThis(),
+    getRawOne: jest.fn().mockReturnThis(),
+    getRawMany: jest.fn().mockReturnThis(),
+    where: jest.fn().mockReturnThis(),
+    orWhere: jest.fn().mockReturnThis(),
+  }),
+  findOne: jest.fn(),
+});
+
+const mockCompanyRepository = () => ({
+  createQueryBuilder: jest.fn().mockReturnValue({
+    leftJoinAndSelect: jest.fn().mockReturnThis(),
+    select: jest.fn().mockReturnThis(),
+    getRawMany: jest.fn().mockReturnThis(),
+    where: jest.fn().mockReturnThis(),
+  }),
+});
+
+type MockRepository<T = any> = Partial<Record<keyof Repository<T>, jest.Mock>>;
+
+describe('PostingsService', () => {
+  let service: PostingsService;
+  let postingsRepository: MockRepository<Posting>;
+  let companyRepository: MockRepository<Company>;
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        PostingsService,
+        {
+          provide: getRepositoryToken(Posting),
+          useValue: mockPostingsRepository(),
+        },
+        {
+          provide: getRepositoryToken(Company),
+          useValue: mockCompanyRepository(),
+        },
+      ],
+    }).compile();
+
+    service = module.get<PostingsService>(PostingsService);
+    postingsRepository = module.get<MockRepository<Posting>>(
+      getRepositoryToken(Posting),
+    );
+    companyRepository = module.get<MockRepository<Company>>(
+      getRepositoryToken(Company),
+    );
+  });
+...
+```
+
 - 각 메소드가 몇번 사용되는지, 인자를 제대로 받는지, 결과와 예상결과가 같은지 테스트하였습니다.
 
 ```ts
