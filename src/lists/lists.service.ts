@@ -18,6 +18,7 @@ export class ListsService {
       .leftJoinAndSelect('list.user', 'user')
       .where('user.id = :id', { id: user })
       .getRawOne();
+
     if (exitedList) {
       throw new ForbiddenException(
         '이미 채용공고에 지원하여 더이상 지원하실 수 없습니다.',
