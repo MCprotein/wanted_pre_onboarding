@@ -11,8 +11,11 @@ export class ListsService {
     private listRepository: Repository<List>,
   ) {}
 
+  // 채용공고 지원
   async createList(applyDto: ApplyDto): Promise<List> {
     const { user } = applyDto;
+
+    // 채용공고 지원 이력 확인
     const exitedList = await this.listRepository
       .createQueryBuilder('list')
       .leftJoinAndSelect('list.user', 'user')
@@ -25,6 +28,7 @@ export class ListsService {
       );
     }
 
+    // 채용공고 지원
     const createdList = this.listRepository.create(applyDto);
     await this.listRepository.save(createdList);
     return createdList;

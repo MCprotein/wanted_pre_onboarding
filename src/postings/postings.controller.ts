@@ -16,18 +16,21 @@ import { PostingsService } from './postings.service';
 export class PostingsController {
   constructor(private postingsService: PostingsService) {}
 
+  // 채용공고 목록 조회
   @Get('/')
   async getPostings(): Promise<Posting[]> {
     const postings = await this.postingsService.getPostings();
     return postings;
   }
 
+  // 채용공고 상세 페이지 조회
   @Get('/detail/:id')
   async getPosting(@Param('id', ParseIntPipe) id: number): Promise<Posting> {
     const posting = await this.postingsService.getPosting(id);
     return posting;
   }
 
+  // 채용공고 검색
   @Get('/explore')
   async searchPosting(
     @Query('search') searchOption: string,
@@ -38,6 +41,7 @@ export class PostingsController {
     return searchedPostings;
   }
 
+  // 채용공고 등록
   @Post('/')
   async createPosting(@Body() createPostingDto: PostingDto): Promise<Posting> {
     const createdPosting = await this.postingsService.createPosting(
@@ -46,6 +50,7 @@ export class PostingsController {
     return createdPosting;
   }
 
+  // 채용공고 수정
   @Put('/:id')
   async updatePosting(
     @Param('id', ParseIntPipe) id: number,
@@ -58,6 +63,7 @@ export class PostingsController {
     return updatedPosting;
   }
 
+  // 채용공고 삭제
   @Delete('/:id')
   async deletePosting(@Param('id', ParseIntPipe) id: number): Promise<void> {
     await this.postingsService.deletePosting(id);

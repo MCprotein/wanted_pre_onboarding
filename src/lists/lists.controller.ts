@@ -7,6 +7,7 @@ import { ListsService } from './lists.service';
 export class ListsController {
   constructor(private listService: ListsService) {}
 
+  // 채용공고 지원
   @Post('/')
   async applyPosting(@Body() applyDto: ApplyDto): Promise<List> {
     const list = await this.listService.createList(applyDto);

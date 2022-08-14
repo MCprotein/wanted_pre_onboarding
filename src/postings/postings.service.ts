@@ -14,6 +14,7 @@ export class PostingsService {
     private companyRepository: Repository<Company>,
   ) {}
 
+  // 채용공고 목록 조회
   async getPostings(): Promise<Posting[]> {
     const postings = await this.postingsRepository
       .createQueryBuilder('posting')
@@ -31,6 +32,7 @@ export class PostingsService {
     return postings;
   }
 
+  // 채용공고 상세 페이지 조회
   async getPosting(id: number): Promise<Posting> {
     // 채용공고 상세 내용
     const posting = await this.postingsRepository
@@ -60,6 +62,7 @@ export class PostingsService {
         .getRawMany()
     ).map((e) => e['postings_id']);
 
+    // 채용공고 상세 내용과 id_list를 합침
     const result = {
       ...posting,
       회사가올린다른채용공고: [...postingIds.filter((e) => e !== id)],
@@ -68,6 +71,7 @@ export class PostingsService {
     return result;
   }
 
+  // 채용공고 검색 (회사명, 국가, 지역, 포지션, 사용기술 검색 가능)
   async searchPostings(searchOption: string): Promise<Posting[]> {
     const searchedPostings = this.postingsRepository
       .createQueryBuilder('posting')
@@ -101,11 +105,14 @@ export class PostingsService {
     return searchedPostings;
   }
 
+  // 채용공고 등록
   async createPosting(createPostingDto: PostingDto): Promise<Posting> {
     const createdPosting = this.postingsRepository.create(createPostingDto);
     await this.postingsRepository.save(createdPosting);
     return createdPosting;
   }
+
+  // 채용공고 수정
   async updatePosting(
     id: number,
     updatePostingDto: UpdateDto,
@@ -123,6 +130,8 @@ export class PostingsService {
 
     return await this.postingsRepository.findOne(id);
   }
+
+  // 채용공고 삭제
   async deletePosting(id: number): Promise<void> {
     const result = await this.postingsRepository.delete(id);
     if (result.affected === 0) {
