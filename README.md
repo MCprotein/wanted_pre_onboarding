@@ -135,7 +135,7 @@ https://documenter.getpostman.com/view/21812980/VUjQoQiK
 ```
 
 ```
-// 삭제
+// 
 {
     "statusCode": 404,
     "message": "해당 채용공고 id(11)가 없습니다. 다시 한 번 확인해 주세요.",
@@ -259,7 +259,7 @@ https://documenter.getpostman.com/view/21812980/VUjQoQiK
 ```
 
 ```
-// 삭제
+// 
 {
     "statusCode": 403,
     "message": "이미 채용공고에 지원하여 더이상 지원하실 수 없습니다.",
